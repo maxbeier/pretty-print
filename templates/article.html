@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Article</title>
+   <style>
+      textarea {
+         width: 100%;
+         height: 50em;
+      }
+   </style>
+</head>
+<body>
+   <h1>Markdown</h1>
+   <form action="/generate" method="POST">
+      <textarea name="content">{{ article }}</textarea>
+      <button type="submit">PDF generieren</button>
+   </form>
+
+</body>
+</html>
