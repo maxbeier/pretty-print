@@ -12,6 +12,6 @@ $response = json_decode(file_get_contents($call), true);
 $content = $response['content'];
 $title = $response['title'];
 
-file_put_contents($tmp_file, "<h1>$title</h1>$content");
+file_put_contents($tmp_file, "<h1>$title</h1> $content");
 shell_exec("pandoc $tmp_file -o '$title.pdf' --latex-engine=xelatex");
 unlink($tmp_file);
