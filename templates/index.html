@@ -1,16 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-   <meta charset="UTF-8">
-   <title>Index</title>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="mobile-web-app-capable" content="yes">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+   <meta name="description" content="Convert web pages to pretty formatted pdf documents.">
+
+   <title>Pretty Print</title>
+
+   <link rel="icon" sizes="512x512" href="static/img/icon.png">
+   <link rel="shortcut icon" href="static/img/favicon.png">
+
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400:500">
+   <link rel="stylesheet" href="static/css/material.blue-green.min.css">
+   <link rel="stylesheet" href="static/css/styles.css">
 </head>
+
 <body>
-   <h1>Hallo</h1>
+   <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+      <header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
+         <div class="mdl-layout__header-row">
+            <a href="/" class="home mdl-layout-title">Pretty Print</a>
+            <div class="mdl-textfield mdl-js-textfield search-bar">
+               <form action="." method="GET">
+                  <input class="mdl-textfield__input" type="text" name="url" value="{% if url %}{{ url }}{% endif %}">
+                  <label class="mdl-textfield__label" for="sample1">Web-Adresse</label>
+               </form>
+            </div>
+         </div>
+      </header>
+      <div class="ribbon"></div>
+      <main class="main mdl-layout__content">
+         {% if article %}
+         <div class="content input-block mdl-color--white mdl-shadow--4dp mdl-color-text--grey-800">
+            <!-- <h3>Inhalt</h3> -->
+            <div class="mdl-textfield mdl-js-textfield block">
+               <textarea class="mdl-textfield__input block-grow" type="text" rows="3" name="markdown">{{ article }}</textarea>
+            </div>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data-action="generate-pdf" type="button">PDF generieren</button>
+         </div>
+         <div class="content output-block hidden mdl-color--white mdl-shadow--4dp mdl-color-text--grey-800">
+            <!-- <h3>Ergebnis</h3> -->
+            <div class="mdl-textfield mdl-js-textfield block">
+               <iframe src="" class="output-pdf"></iframe>
+            </div>
+            <a href="#" download class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data-action="download-pdf">PDF herunterladen</a>
+         </div>
+         {% else %}
+         <div class="content mdl-color--white mdl-shadow--4dp mdl-color-text--grey-800">
+            <h3>Willkommen</h3>
+            <p>Geben Sie die URL des gewünschten Artikels ein.</p>
+         </div>
+         {% endif %}
+      </main>
 
-   <form action="." method="GET">
-      <input type="text" name="url" value="">
-      <button type="submit">Inhalt holen</button>
-   </form>
-
+      <script src="static/js/material.min.js"></script>
+      {% if article %}
+      <script src="static/js/script.js"></script>
+      {% endif %}
 </body>
+
 </html>

@@ -1,10 +1,14 @@
-# Usage
+# Pretty Print
+
+Converts web pages to pretty formatted pdf documents.
+
+
+## Usage
 
 ```sh
-php -q index.php http://www.ribbonfarm.com/2015/04/08/the-essence-of-peopling/
+# Python-Version
+python3 server.py
+
+# PHP-Version
+php -q index.php <url>
 ```
-
-# TODO
-
-- http://upndown.netgusto.com/
-- https://www.instaparser.com/
