@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+
+from config import config
 from flask import Flask
 from flask import request
 from flask import render_template
@@ -11,9 +14,6 @@ import re
 import hashlib
 import pypandoc  # https://github.com/bebraw/pypandoc
 import urllib.request
-
-API_URL = 'https://www.instaparser.com/api/1/article'
-API_KEY = '2ee3b12c669743c19064369fa32c70c8'
 
 
 app = Flask(__name__)
@@ -56,7 +56,8 @@ def generate_pdf():
 
 @cached()
 def call_api(article_url):
-    url = '{}?api_key={}&url={}'.format(API_URL, API_KEY, article_url)
+    url = '{}/article?api_key={}&url={}'.format(
+        config['API_URL'], config['API_KEY'], article_url)
     json_data = urllib.request.urlopen(url).read()
     data = json.loads(json_data)
 
