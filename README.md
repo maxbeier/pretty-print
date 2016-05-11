@@ -2,6 +2,8 @@
 
 Converts web pages to pretty formatted pdf documents.
 
+![Screenshot](screenshot.png)
+
 
 ## Usage
 
