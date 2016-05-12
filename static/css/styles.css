@@ -7,6 +7,10 @@
    box-sizing: border-box;
 }
 
+.color-blue {
+   color: var(--blue);
+}
+
 .mdl-layout__header-row {
    padding-left: var(--space);
 }
@@ -17,6 +21,10 @@
 }
 
 .search-bar {
+   width: 100%;
+}
+
+.header .search-bar {
    flex: 1;
    margin-left: var(--space);
 }
