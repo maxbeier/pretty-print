@@ -60,9 +60,14 @@ def call_api(article_url):
         config['API_URL'], config['API_KEY'], article_url)
 
     try:
+        # load via Instaparser API
         response = urllib.request.urlopen(url)
-    except urllib.error.HTTPError as e:
-        return 'Datei konnte nicht geladen werden: {}'.format(str(e))
+    except urllib.error.HTTPError:
+        try:
+            # load directly
+            return urllib.request.urlopen(article_url).read()
+        except (urllib.error.HTTPError, urllib.error.URLError) as e:
+            return 'Datei konnte nicht geladen werden: {}'.format(str(e))
 
     data = json.loads(response.read())
 
