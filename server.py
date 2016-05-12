@@ -58,8 +58,13 @@ def generate_pdf():
 def call_api(article_url):
     url = '{}/article?api_key={}&url={}'.format(
         config['API_URL'], config['API_KEY'], article_url)
-    json_data = urllib.request.urlopen(url).read()
-    data = json.loads(json_data)
+
+    try:
+        response = urllib.request.urlopen(url)
+    except urllib.error.HTTPError as e:
+        return 'Datei konnte nicht geladen werden: {}'.format(str(e))
+
+    data = json.loads(response.read())
 
     markdown = pypandoc.convert(data['html'], 'md', format='html')
     data['markdown'] = clean_content(markdown)
