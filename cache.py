@@ -15,9 +15,9 @@ class cached(object):
 
     def __call__(self, f):
         def decorator(*args, **kwargs):
-            response = cache.get(*args)
+            response = cache.get(args)
             if response is None:
                 response = f(*args, **kwargs)
-                cache.set(*args, response, self.timeout)
+                cache.set(args, response, self.timeout)
             return response
         return decorator
