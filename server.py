@@ -56,7 +56,7 @@ def generate_pdf():
 
 @cached()
 def call_api(article_url):
-    url = '{}/article?api_key={}&url={}'.format(
+    url = '{}?token={}&url={}'.format(
         config['API_URL'], config['API_KEY'], article_url)
 
     try:
@@ -71,11 +71,11 @@ def call_api(article_url):
 
     data = json.loads(response.read())
 
-    markdown = pypandoc.convert(data['html'], 'md', format='html')
+    markdown = pypandoc.convert(data['content'], 'md', format='html')
     data['markdown'] = clean_content(markdown)
 
-    if data['date']:
-        data['date'] = datetime.fromtimestamp(int(data['date']))
+    # if data['date_published']:
+    #     data['date'] = datetime.fromtimestamp(int(data['date_published']))
 
     return render_template('preview.md', **data)
 
