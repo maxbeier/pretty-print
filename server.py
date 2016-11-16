@@ -36,22 +36,27 @@ def generate_pdf():
 
     if not os.path.exists(filename):
         try:
-            pypandoc.convert(
-                content,
-                'pdf',
-                format='markdown',
-                outputfile=filename,
-                extra_args=[
-                    '--latex-engine=xelatex',
-                    '-V', 'geometry:a4paper, landscape, twocolumn, columnsep=2cm,\
-                        top=2cm, bottom=2cm, left=2cm, right=2cm'
-                ]
-            )
+            convert(content, filename)
         except RuntimeError as e:
             response = '<code>{}</code>'.format(str(e).replace('\\n', '<br>'))
             return make_response(response, 500)
 
     return redirect(filename, code=201)
+
+
+def convert(content, filename):
+    pypandoc.convert(
+        content,
+        'pdf',
+        format='markdown',
+        outputfile=filename,
+        extra_args=[
+            '--latex-engine=xelatex',
+            '--variable', 'fontsize=10pt',
+            '--variable', 'geometry:a4paper, landscape, twocolumn,\
+                columnsep=2cm, top=2cm, bottom=2cm, left=2cm, right=2cm'
+        ]
+    )
 
 
 @cached()
