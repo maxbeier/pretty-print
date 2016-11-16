@@ -1,6 +1,6 @@
 # {{title}}
 
-_{% if author %}{{ author }}{% endif %}{% if date_published %}, {{ date_published }}{% endif %}_
+_{% if author %}{{ author }}{% endif %}{% if date_published %}, {{ date.strftime('%d.%m.%Y') }}{% endif %}_
 
   
 

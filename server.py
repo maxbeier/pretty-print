@@ -1,19 +1,16 @@
 #!/usr/bin/env python
 
 from config import config
-from flask import Flask
-from flask import request
-from flask import render_template
-from flask import make_response
-from flask import redirect
-from flask import json
+from flask import Flask, request, render_template, make_response, redirect, json
 from cache import cached
 from datetime import datetime
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
+
 import os.path
 import re
 import hashlib
 import pypandoc  # https://github.com/bebraw/pypandoc
-import urllib.request
 
 
 app = Flask(__name__)
@@ -61,17 +58,21 @@ def convert(content, filename):
 
 @cached()
 def call_api(article_url):
-    url = '{}?token={}&url={}'.format(
-        config['API_URL'], config['API_KEY'], article_url)
+    url = '{}?url={}'.format(config['API_URL'], article_url)
+    req = Request(url)
+    req.add_header('x-api-key', config['API_KEY'])
+    req.add_header('Content-Type', 'application/json')
 
     try:
-        # load via Instaparser API
-        response = urllib.request.urlopen(url)
-    except urllib.error.HTTPError:
+        # load via Mercury API
+        print(url)
+        response = urlopen(req)
+        print(response)
+    except HTTPError:
         try:
             # load directly
-            return urllib.request.urlopen(article_url).read()
-        except (urllib.error.HTTPError, urllib.error.URLError) as e:
+            return urlopen(article_url).read()
+        except (HTTPError, URLError) as e:
             return 'Datei konnte nicht geladen werden: {}'.format(str(e))
 
     data = json.loads(response.read())
@@ -79,8 +80,8 @@ def call_api(article_url):
     markdown = pypandoc.convert(data['content'], 'md', format='html')
     data['markdown'] = clean_content(markdown)
 
-    # if data['date_published']:
-    #     data['date'] = datetime.fromtimestamp(int(data['date_published']))
+    if data['date_published']:
+        data['date'] = datetime.strptime(data['date_published'], '%Y-%m-%dT%H:%M:%S.%fZ')
 
     return render_template('preview.md', **data)
 
