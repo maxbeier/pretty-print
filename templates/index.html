@@ -39,7 +39,7 @@
          <div class="content input-block mdl-color--white mdl-shadow--4dp mdl-color-text--grey-800">
             <!-- <h3>Inhalt</h3> -->
             <div class="mdl-textfield mdl-js-textfield block">
-               <textarea class="mdl-textfield__input block-grow" type="text" rows="3" name="markdown">{{ article }}</textarea>
+               <textarea class="mdl-textfield__input block-grow" name="markdown">{{ article }}</textarea>
             </div>
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data-action="generate-pdf" type="button">PDF generieren</button>
          </div>
@@ -62,11 +62,12 @@
          </div>
          {% endif %}
       </main>
+   </div>
 
-      <script src="static/js/material.min.js"></script>
-      {% if article %}
-      <script src="static/js/script.js"></script>
-      {% endif %}
+   <script src="static/js/material.min.js"></script>
+   {% if article %}
+   <script src="static/js/script.js"></script>
+   {% endif %}
 </body>
 
 </html>

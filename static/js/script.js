@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const requestData = {
          method: 'POST',
          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
          },
-         body: `content=${encodeURIComponent($markdownEditor.value)}`
+         body: `content=${encodeURIComponent($markdownEditor.value)}`,
       };
       const dataURI = 'data:text/html;charset=utf-8,';
 
