@@ -25,7 +25,7 @@ app.listen(3000);
 app.get('/', (req, res) => {
    loadArticle(req.query.url)
       .then(article => res.render('index', article))
-      .catch(err => res.render('index', { error: err }));
+      .catch(error => res.render('index', { error }));
 });
 
 app.post('/', (req, res) => {
@@ -63,7 +63,7 @@ function generatePDF(content, filename) {
       '--variable', 'geometry:a4paper, landscape, twocolumn, columnsep=2cm, top=2cm, bottom=2cm, left=2cm, right=2cm',
    ];
    return pandoc(params, content, folder)
-      .then(() => setTimeout(remove, 15 * 60 * 1000)); // remove after 15 min);
+      .then(() => setTimeout(remove, 15 * 60 * 1000)); // remove after 15 minutes;
 }
 
 function pandoc(params, input, cwd) {
@@ -72,10 +72,9 @@ function pandoc(params, input, cwd) {
          if (err || stderr) return reject(err || stderr);
          return resolve(stdout);
       });
-
       const stdinStream = new stream.Readable();
       stdinStream.push(input);
-      stdinStream.push(null); // eof
+      stdinStream.push(null); // EOF
       stdinStream.pipe(child.stdin);
    });
 }
