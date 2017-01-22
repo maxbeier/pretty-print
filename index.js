@@ -34,7 +34,7 @@ app.post('/', (req, res) => {
    const file = `articles/${hash}.pdf`;
    const success = () => res.location(file).status(201).send();
 
-   fs.exists(file, (exists) => {
+   fs.exists(`static/${file}`, (exists) => {
       if (exists) return success();
       return generatePDF(content, hash)
          .then(success)
