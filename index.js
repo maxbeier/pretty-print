@@ -20,7 +20,7 @@ app.use(express.static(path.resolve('static')));
 app.set('views', path.resolve('templates'));
 app.set('view engine', 'pug');
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 
 app.get('/', (req, res) => {
    loadArticle(req.query.url)
