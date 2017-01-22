@@ -57,6 +57,7 @@ function generatePDF(content, filename) {
    const remove = () => fs.unlinkSync(`${folder}/${filename}.pdf`);
    const params = [
       `--output=${filename}.pdf`,
+      `--template=${path.resolve('templates/article.tex')}`,
       '--from=markdown',
       '--latex-engine=xelatex',
       '--variable', 'fontsize=10pt',
