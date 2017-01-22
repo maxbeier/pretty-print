@@ -47,7 +47,7 @@ function loadArticle(url) {
    return new MercuryClient(process.env.MERCURY_KEY).parse(url)
       .then(article => pandoc(['--from=html', '--to=markdown', '--no-wrap'], article.content)
       .then((markdown) => {
-         article.markdown = striptags(markdown).trim();
+         article.markdown = clean(markdown);
          return article;
       }));
 }
@@ -77,4 +77,11 @@ function pandoc(params, input, cwd) {
       stdinStream.push(null); // EOF
       stdinStream.pipe(child.stdin);
    });
+}
+
+function clean(content) {
+   return striptags(content) // remove html tags
+      .replace(/\\\n/g, '\n') // remove trailing slashes
+      .replace(/(\n\s*?\n)\s*\n/g, '$1') // reduce multiple line breaks but preserve whitespace
+      .trim(); // remove surrounding whitespace
 }
