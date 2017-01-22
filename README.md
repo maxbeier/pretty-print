@@ -1,12 +1,24 @@
 # Pretty Print
 
-Converts web pages to pretty formatted pdf documents.
+Convert web pages into pretty pdf documents.
 
 ![Screenshot](screenshot.png)
 
 
 ## Usage
 
+You'll need an API key for [Mercury](https://mercury.postlight.com/web-parser/).
+
 ```sh
-python3 server.py
+echo "MERCURY_KEY=$YOUR_KEY" > .env
+npm install
+node index
 ```
+
+
+## Alternative Parsers
+
+- [ageitgey/node-unfluff](https://github.com/ageitgey/node-unfluff)
+- [codelucas/newspaper](https://github.com/codelucas/newspaper)
+- [luin/readability](https://github.com/luin/readability)
+- [mozilla/readability](https://github.com/mozilla/readability)
