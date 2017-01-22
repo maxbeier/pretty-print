@@ -34,12 +34,15 @@ html(lang='en')
                   // h3 Inhalt
                   .mdl-textfield.mdl-js-textfield.block
                      textarea.mdl-textfield__input.block-grow(name='markdown')
-                      | # #{title}
-                      = '\n\n_'
-                      | #{author}
-                      if date_published
-                        | , #{date_published.slice(0,10)}
-                      = '_\n\n\n'
+                      = '---\n'
+                      | title: "#{title}"
+                      | author: "#{author}"
+                      | date: #{(date_published || '').slice(0,10)}
+                      | lang: #{language || 'de'}
+                      if direction !== 'ltr'
+                        = '\n'
+                        | dir: #{direction}
+                      = '\n---\n\n'
                       | #{markdown}
                       = '\n\n'
                       if url
