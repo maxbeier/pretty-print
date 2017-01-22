@@ -1,1 +1,3 @@
-static/articles/
+.env
+node_modules
+static/articles

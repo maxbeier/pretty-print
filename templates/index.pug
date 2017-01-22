@@ -1,0 +1,63 @@
+doctype html
+html(lang='en')
+   head
+      meta(charset='utf-8')
+      meta(http-equiv='X-UA-Compatible', content='IE=edge')
+      meta(name='mobile-web-app-capable', content='yes')
+      meta(name='viewport', content='width=device-width, initial-scale=1.0')
+      meta(name='description', content='Convert web pages into pretty pdf documents.')
+      title Pretty Print
+      link(rel='icon', sizes='512x512', href='img/icon.png')
+      link(rel='shortcut icon', href='img/favicon.png')
+      link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto:400:500')
+      link(rel='stylesheet', href='css/material.blue-green.min.css')
+      link(rel='stylesheet', href='css/styles.css')
+      link(rel='prerender', href='loader.html')
+   body
+      .layout.mdl-layout.mdl-layout--fixed-header.mdl-js-layout.mdl-color--grey-100
+         header.header.mdl-layout__header.mdl-layout__header--scroll.mdl-color--grey-100.mdl-color-text--grey-800
+            .mdl-layout__header-row
+               a.home.mdl-layout-title(href='/') Pretty Print
+               .mdl-textfield.mdl-js-textfield.search-bar
+                  form(action='.', method='GET')
+                     input.mdl-textfield__input(type='text', name='url', value=url)
+                     label.mdl-textfield__label URL
+         .ribbon
+         main.main.mdl-layout__content
+
+            if error
+             .content.input-block.mdl-color--white.mdl-shadow--4dp.mdl-color-text--grey-800
+                .mdl-textfield.mdl-js-textfield.block
+                  pre= error
+            else if markdown
+               .content.input-block.mdl-color--white.mdl-shadow--4dp.mdl-color-text--grey-800
+                  // h3 Inhalt
+                  .mdl-textfield.mdl-js-textfield.block
+                     textarea.mdl-textfield__input.block-grow(name='markdown')
+                      | # #{title}
+                      = '\n\n_'
+                      | #{author}
+                      if date_published
+                        | , #{date_published.slice(0,10)}
+                      = '_\n\n\n'
+                      | #{markdown}
+                      = '\n\n'
+                      if url
+                         | _From #{url}_
+                  button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(data-action='generate-pdf', type='button') Generate PDF
+               .content.output-block.hidden.mdl-color--white.mdl-shadow--4dp.mdl-color-text--grey-800
+                  // h3 Ergebnis
+                  .mdl-textfield.mdl-js-textfield.block
+                     iframe.output-pdf(src='')
+                  a.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(href='#', download='', data-action='download-pdf') Download PDF
+            else
+               .content.mdl-color--white.mdl-shadow--4dp.mdl-color-text--grey-800
+                  h3 Convert web pages to pretty pdf documents.
+                  form(action='.', method='GET')
+                     .mdl-textfield.mdl-js-textfield.search-bar
+                        input.mdl-textfield__input(type='text', name='url')
+                        label.mdl-textfield__label.color-blue Article Address
+
+      script(src='js/material.min.js')
+      if markdown
+         script(src='js/script.js')

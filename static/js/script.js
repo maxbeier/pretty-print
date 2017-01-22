@@ -9,21 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
    $generateButton.onclick = generatePdf;
 
    function generatePdf() {
-      const url = '/generate';
       const requestData = {
          method: 'POST',
-         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-         },
-         body: `content=${encodeURIComponent($markdownEditor.value)}`,
+         body: $markdownEditor.value,
       };
       const dataURI = 'data:text/html;charset=utf-8,';
 
       $generateButton.disabled = true;
       $outputBlock.classList.remove('hidden');
-      showResult('static/loader.html');
+      showResult('loader.html');
 
-      fetch(url, requestData)
+      fetch('/', requestData)
          .then(checkStatus)
          .then(response => showResult(response.headers.get('location'), true))
          .catch(error => showResult(dataURI + escape(error)));
