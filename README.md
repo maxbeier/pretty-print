@@ -2,7 +2,7 @@
 
 Convert web pages into pretty pdf documents.
 
-![Screenshot](screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/maxbeier/pretty-print/master/screenshot.png)
 
 
 ## Usage
