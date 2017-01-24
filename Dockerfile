@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:7.4
 
 LABEL name "pretty-print"
 
