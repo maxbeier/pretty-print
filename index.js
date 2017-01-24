@@ -4,7 +4,6 @@ const execFile = require('child_process').execFile;
 const express = require('express');
 const fs = require('fs');
 const MercuryClient = require('mercury-client');
-const pandocBinary = require('pandoc-bin').path;
 const path = require('path');
 const sha256 = require('sha256');
 const stream = require('stream');
@@ -69,7 +68,7 @@ function generatePDF(content, filename) {
 
 function pandoc(params, input, cwd) {
    return new Promise((resolve, reject) => {
-      const child = execFile(pandocBinary, params, { cwd }, (err, stdout, stderr) => {
+      const child = execFile('pandoc', params, { cwd }, (err, stdout, stderr) => {
          if (err || stderr) return reject(err || stderr);
          return resolve(stdout);
       });

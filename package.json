@@ -11,7 +11,6 @@
     "dotenv": "^4.0.0",
     "express": "^4.14.0",
     "mercury-client": "^1.0.1",
-    "pandoc-bin": "^0.2.0",
     "pug": "^2.0.0-beta6",
     "sha256": "^0.2.0",
     "striptags": "^2.2.1"
