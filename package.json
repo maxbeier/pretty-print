@@ -19,6 +19,6 @@
   "scripts": {
     "dev": "nodemon index",
     "start": "NODE_ENV=production node index",
-    "deploy": "now -e MERCURY_KEY=@mercury_key"
+    "deploy": "now --docker -e MERCURY_KEY=@mercury_key -e PORT=80"
   }
 }

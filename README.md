@@ -12,7 +12,15 @@ You'll need an API key for [Mercury](https://mercury.postlight.com/web-parser/).
 ```sh
 echo "MERCURY_KEY=$YOUR_KEY" > .env
 npm install
-node index
+
+# run dev
+npm run dev
+
+# run prod
+npm start
+
+# deploy on now.sh
+npm run deploy
 ```
 
 
