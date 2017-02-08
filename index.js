@@ -44,7 +44,7 @@ app.post('/', (req, res) => {
 function loadArticle(url) {
    if (!url) return Promise.resolve(null);
    return new MercuryClient(process.env.MERCURY_KEY).parse(url)
-      .then(article => pandoc(['--from=html', '--to=markdown', '--no-wrap'], article.content)
+      .then(article => pandoc(['--from=html', '--to=markdown', '--wrap=none'], article.content)
       .then((markdown) => {
          article.markdown = clean(markdown);
          return article;
