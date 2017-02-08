@@ -53,7 +53,7 @@ function loadArticle(url) {
 
 function generatePDF(content, filename) {
    const folder = path.resolve('static/articles');
-   const remove = () => fs.unlinkSync(`${folder}/${filename}.pdf`);
+   const remove = () => fs.unlink(`${folder}/${filename}.pdf`, console.log);
    const params = [
       `--output=${filename}.pdf`,
       `--template=${path.resolve('templates/article.tex')}`,
