@@ -35,8 +35,8 @@ html(lang='en')
                   .mdl-textfield.mdl-js-textfield.block
                      textarea.mdl-textfield__input.block-grow(name='markdown')
                       = '---\n'
-                      | title: "#{title.replace(/"/g, '\\"')}"
-                      | author: "#{author.replace(/"/g, '\\"')}"
+                      | title: "#{(title || '').replace(/"/g, '\\"')}"
+                      | author: "#{(author || '').replace(/"/g, '\\"')}"
                       | date: #{(date_published || '').slice(0,10)}
                       | lang: #{language || 'de'}
                       if direction !== 'ltr'
