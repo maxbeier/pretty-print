@@ -8,10 +8,12 @@ const path = require('path');
 const sha256 = require('sha256');
 const stream = require('stream');
 const striptags = require('striptags');
+const got = require('got');
 require('dotenv').config();
 
 const app = express();
 
+app.enable('trust proxy');
 app.use(compress());
 app.use(bodyParser.text());
 app.use(express.static(path.resolve('static')));
@@ -22,7 +24,7 @@ app.set('view engine', 'pug');
 app.listen(process.env.PORT || 3000);
 
 app.get('/', (req, res) => {
-   loadArticle(req.query.url)
+   loadArticle(req.query.url, req)
       .then(article => res.render('index', article))
       .catch(error => res.render('index', { error }));
 });
@@ -37,18 +39,28 @@ app.post('/', (req, res) => {
       if (exists) return success();
       return generatePDF(content, hash)
          .then(success)
-         .catch(err => res.status(500).send(err));
+         .catch(error => res.status(500).send(error));
    });
 });
 
-function loadArticle(url) {
+app.get('/proxy', (req, res) => {
+   const options = {
+      headers: { 'User-Agent': 'Googlebot/2.1 (+http://www.google.com/bot.html)' },
+   };
+   got(req.query.url, options)
+      .then(response => res.send(response.body))
+      .catch(error => res.status(500).send(error));
+});
+
+function loadArticle(url, req) {
    if (!url) return Promise.resolve(null);
-   return new MercuryClient(process.env.MERCURY_KEY).parse(url)
+   const proxiedUrl = `${req.protocol}://${req.get('host')}/proxy?url=${url}`;
+   return new MercuryClient(process.env.MERCURY_KEY).parse(proxiedUrl)
       .then(article => pandoc(['--from=html', '--to=markdown', '--wrap=none'], article.content)
-      .then((markdown) => {
-         article.markdown = clean(markdown);
-         return article;
-      }));
+         .then((markdown) => {
+            article.markdown = clean(markdown);
+            return article;
+         }));
 }
 
 function generatePDF(content, filename) {
