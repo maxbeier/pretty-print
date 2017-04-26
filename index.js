@@ -8,7 +8,7 @@ const path = require('path');
 const sha256 = require('sha256');
 const stream = require('stream');
 const striptags = require('striptags');
-const got = require('got');
+const request = require('request');
 require('dotenv').config();
 
 const app = express();
@@ -45,11 +45,13 @@ app.post('/', (req, res) => {
 
 app.get('/proxy', (req, res) => {
    const options = {
+      url: req.query.url,
       headers: { 'User-Agent': 'Googlebot/2.1 (+http://www.google.com/bot.html)' },
    };
-   got(req.query.url, options)
-      .then(response => res.send(response.body))
-      .catch(error => res.status(500).send(error));
+   request(options, (error, response, body) => {
+      if (error) res.status(500).send(error);
+      else res.send(body);
+   });
 });
 
 function loadArticle(url, req) {

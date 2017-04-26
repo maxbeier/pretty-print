@@ -10,9 +10,9 @@
     "compression": "^1.6.2",
     "dotenv": "^4.0.0",
     "express": "^4.14.0",
-    "got": "^6.7.1",
     "mercury-client": "^1.0.1",
     "pug": "^2.0.0-beta6",
+    "request": "^2.81.0",
     "sha256": "^0.2.0",
     "striptags": "^2.2.1"
   },
