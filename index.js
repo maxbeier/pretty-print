@@ -87,8 +87,7 @@ function pandoc(params, input, cwd) {
          if (err || stderr) return reject(err || stderr);
          return resolve(stdout);
       });
-      child.stdin.write(input);
-      child.stdin.end();
+      child.stdin.end(input);
    });
 }
 
