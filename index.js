@@ -53,15 +53,17 @@ app.get('/proxy', (req, res) => {
    });
 });
 
-function loadArticle(url, req) {
-   if (!url) return Promise.resolve(null);
-   const proxiedUrl = `${req.protocol}://${req.get('host')}/proxy?url=${url}`;
-   return new MercuryClient(process.env.MERCURY_KEY).parse(proxiedUrl)
-      .then(article => pandoc(['--from=html', '--to=markdown', '--wrap=none'], article.content)
-         .then((markdown) => {
-            article.markdown = clean(markdown);
-            return article;
-         }));
+async function loadArticle(url, req) {
+   if (!url) return null;
+
+   // const proxiedUrl = `${req.protocol}://${req.get('host')}/proxy?url=${url}`;
+   const article = await new MercuryClient(process.env.MERCURY_KEY).parse(url);
+
+   if (!article) throw new Error('Could not fetch article. This seems to happen erratically.');
+
+   const markdown = await pandoc(['--from=html', '--to=markdown', '--wrap=none'], article.content);
+   article.markdown = clean(markdown);
+   return article;
 }
 
 function generatePDF(content, filename) {
