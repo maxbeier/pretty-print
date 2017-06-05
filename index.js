@@ -6,7 +6,6 @@ const fs = require('fs');
 const MercuryClient = require('mercury-client');
 const path = require('path');
 const sha256 = require('sha256');
-const stream = require('stream');
 const striptags = require('striptags');
 const request = require('request');
 require('dotenv').config();
@@ -86,10 +85,8 @@ function pandoc(params, input, cwd) {
          if (err || stderr) return reject(err || stderr);
          return resolve(stdout);
       });
-      const stdinStream = new stream.Readable();
-      stdinStream.push(input);
-      stdinStream.push(null); // EOF
-      stdinStream.pipe(child.stdin);
+      child.stdin.write(input);
+      child.stdin.end();
    });
 }
 
