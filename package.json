@@ -17,7 +17,7 @@
     "striptags": "^2.2.1"
   },
   "scripts": {
-    "dev": "nodemon index",
+    "dev": "nodemon --inspect index",
     "start": "NODE_ENV=production node index",
     "deploy": "now --docker -e MERCURY_KEY=@mercury_key -e PORT=80"
   }
